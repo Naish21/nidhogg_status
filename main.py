@@ -1,4 +1,4 @@
-__version__ = '0.01'
+__version__ = '0.02'
 
 import asyncio
 import os
@@ -6,12 +6,16 @@ import re
 
 import httpx
 import telegram
+from dotenv import load_dotenv
+
+
+load_dotenv('vars.env')
 
 
 async def send_telegram_message():
     bot = telegram.Bot(telegram_bot_token)
     async with bot:
-        await bot.send_message(text=text_to_send, chat_id=6406807)
+        await bot.send_message(text=text_to_send, chat_id=os.environ.get('CHAT_ID'))
 
 
 telegram_bot_token = os.environ.get('TOKEN')
