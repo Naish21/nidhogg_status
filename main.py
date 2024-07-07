@@ -20,10 +20,7 @@ async def send_telegram_message(token: str, chat_id: str, message: str):
 
 url = "https://baumguitars.com/2023/10/28/waiting-for-a-baum-check-here/"
 
-regex = (
-    r"(?<=<div class=\"circle-val\"><span class=\"circle-counter__number\" data-to-value=\")(.*?)(?=\" "
-    r"data-delimiter=\",\">0<\/span><span class=\"circle-counter__suffix\">%) "
-)
+regex = r'(?<=<div class=\"circle-val\"><span class=\"circle-counter__number\" data-to-value=\")(.*?)(?=\" data-delimiter=\",\">0<\/span><span class=\"circle-counter__suffix\">%)'
 
 if __name__ == "__main__":
     content = httpx.get(url)
@@ -31,8 +28,7 @@ if __name__ == "__main__":
     matches = re.findall(regex, test_str, re.MULTILINE)
 
     nidhogg_status = matches[8:12]
-    nidhogg_status = [int(i) for i in nidhogg_status]
-    nidhogg_status = [f"{i}%" if i < 100 else "👍" for i in nidhogg_status]
+    nidhogg_status = [f"{i}%" if int(i) < 100 else "👍" for i in nidhogg_status]
 
     production, shipping_dk, qc_setup, shipping_me = nidhogg_status
 
